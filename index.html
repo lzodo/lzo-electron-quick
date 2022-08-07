@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    hello electron
+</body>
+    <script>
+        const { ipcRenderer } = require("electron");
+		window.onload = function(){
+			ipcRenderer.send("renderer-send","渲染进程数据传递到主进程")
+		}
+
+		ipcRenderer.on("main-send",(data,val)=>{
+			console.log(val)
+		})
+    </script>
+</html>
