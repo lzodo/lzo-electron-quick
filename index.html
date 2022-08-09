@@ -1,60 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        *{
-            margin:0;
-            padding: 0;
-        }
-        .header{
-            background: #333;
-            width: 100%;
-            height: 40px;
-        }
-    </style>
-</head>
-<body>
-    <div class="header"></div>
-    hello electron
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            .header {
+                background: #333;
+                width: 100%;
+                height: 40px;
+                -webkit-app-region: drag; 
+            }
+            /* body{ -webkit-app-region: drag | no-drag;} */
+        </style>
+    </head>
+    <body>
+        <div class="header"></div>
+        hello electron
+    </body>
     <script>
         const { ipcRenderer } = require("electron");
-		window.onload = function(){
-            moveWin();
-			// ipcRenderer.send("renderer-send","渲染进程数据传递到主进程")
-		}
+        window.onload = function () {
+            ipcRenderer.send("renderer-send123xx", "渲染进程数据传递到主进程");
+        };
 
-        function moveWin(){
-            let header = document.querySelector(".header");
-            let isDown = false;
-            let baseX = 0,baseY = 0;
-            header.addEventListener("mousedown",(e)=>{
-                console.log(e.x)
-                console.log(e.y)
-                isDown = true;
-                baseX = e.x;
-                baseY = e.y;
-            })
-            document.addEventListener("mousemove",(e)=>{
-                if(isDown){
-                    console.log(e.screenX)
-                    let x = e.screenX - baseX;
-                    let y = e.screenY - baseY;
-                    ipcRenderer.send("move-application",{x:x,y:y})
-                }
-            })
-            document.addEventListener("mouseup",(e)=>{
-                isDown = false;
-            })
-        }
-        
-
-		ipcRenderer.on("main-send",(data,val)=>{
-			console.log(val)
-		})
+        ipcRenderer.on("main-send", (data, val) => {
+            // 接收主进程的消息
+            console.log(val);
+        });
     </script>
 </html>

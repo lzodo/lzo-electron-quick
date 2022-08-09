@@ -1,13 +1,9 @@
-const { app, BrowserWindow, ipcMain ,Tray,Menu} = require("electron");
+const { app, BrowserWindow, ipcMain} = require("electron");
+const initTray = require("./ele-sysmenu");
 let win = null;
-// 监听渲染进程的 renderer-send 数据
-ipcMain.on("renderer-send", (event, val) => {
-    console.log(val);
-    event.reply(
-        "main-send",
-        "接收到渲染进程数据，主进程回复，electron控制台打印"
-    );
-});
+
+// 主进程与渲染进程交互
+require("./ele-props")
 
 app.on("ready", function () {
     // 创建一个窗口
@@ -15,6 +11,7 @@ app.on("ready", function () {
         width: 800,
         height: 600,
         frame:true,
+        icon: "static/video-ico.png",     //应用运行时的标题栏图标
         webPreferences: {
             //配置网页功能
             nodeIntegration: true, // 加载的文件中可以直接使用node语法
@@ -26,27 +23,13 @@ app.on("ready", function () {
     win.loadFile("index.html");
 
     // 打开开发调试工具
-    // win.openDevTools();
+    win.openDevTools();
 
-    // 托盘图标 与 右键菜单列表
-    let tray = new Tray("static/video-ico.png");
-    tray.setToolTip("鼠标移入提示文字")
+    // 托盘与右键菜单
+    initTray(win);
 
-    let menu = Menu.buildFromTemplate([
-        {
-            label:"退出",
-            type:"radio",
-            checked:true, //默认选中
-            click:()=>{
-                console.log('点击退出');
-                app.quit();
-            }
-        }
-    ])
-
-    tray.setContextMenu(menu)
-
-
+    // 界面菜单
+    require("./ele-webmenu")
 
 
     win.setBounds(800,500);
@@ -57,11 +40,6 @@ app.on("ready", function () {
     });
 });
 
-
-ipcMain.on("move-application", (event, val) => {
-    win && win.setBounds(800,500);
-    win && win.setPosition(val.x,val.y) 
-});
 /**
  *  进程通信(主进程，渲染进程)
  *
@@ -78,4 +56,15 @@ ipcMain.on("move-application", (event, val) => {
  *      渲染进程 ipcRenderer 模块 接收主进程的数据
  * 
  * https://www.electronjs.org/zh/docs/latest/tutorial/message-ports
+ * 
+ * 
+ * vue 配置 electron  https://juejin.cn/post/7015476516196712462#heading-17
+ *      准备一个vue项目
+ *      安装 vue add electron-builder 插件
+ *      会自动添加
+ *      "electron:build": "vue-cli-service electron:build",
+ *      "electron:serve": "vue-cli-service electron:serve",
+ * 
+ *       主进程文件是 background.js，这个文件在 Vue项目/src/下面
+ *      
  */
