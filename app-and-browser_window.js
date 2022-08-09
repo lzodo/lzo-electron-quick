@@ -15,7 +15,7 @@ app.on("ready", function () {
     });
 
     //窗口中加载 index.html 这个文件
-    win.loadFile("index.html")
+    win.loadFile("stady-index.html")
 
     // win.setBounds({x:500,y:500}) // 设置窗口初始位置
     // win.setPosition(10,10) //设置位置

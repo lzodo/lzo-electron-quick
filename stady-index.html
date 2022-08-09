@@ -25,7 +25,7 @@
         const { ipcRenderer } = require("electron");
 		window.onload = function(){
             moveWin();
-			// ipcRenderer.send("renderer-send","渲染进程数据传递到主进程")
+			ipcRenderer.send("renderer-send","渲染进程数据传递到主进程")
 		}
 
         function moveWin(){
