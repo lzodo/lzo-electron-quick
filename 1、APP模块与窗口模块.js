@@ -17,6 +17,15 @@ app.on("ready", function () {
     //窗口中加载 index.html 这个文件
     win.loadFile("stady-index.html")
 
+    // 操作web内容的属性
+    win.webContents.on("dom-ready",()=>{
+        console.log("222 一个渲染进程加载完成")
+    })
+
+    win.on("close",()=>{
+        console.log("主窗口关闭")
+    })
+
     // win.setBounds({x:500,y:500}) // 设置窗口初始位置
     // win.setPosition(10,10) //设置位置
 
@@ -56,9 +65,11 @@ if (!isOpen) {
  * 1、ready  应用程序初始化完成执行
  *      app.whenReady().then(()=>{})  初始化候完成之后promise方式执行回调的内容
  * 2、browser-window-created  窗口创建完成触发
+ * ... 2 - 3直接有一些 dom 的周期事件，win.webContents.dom-ready...
  * 3、before-quit 窗口关闭之前触发
  * 4、will-quit 窗口关闭了，当时程序还没有关闭，即将关闭时触发
  * 5、quit 应用程序关闭触发
+ *      -   app.window-all-closed 如果有这个，回调中需要执行 app.quit() 才会执行后面的钩子  
  *
  * 方法
  * app.requestSingleInstanceLock()    true 或 false，判断之前是否不存在打开的窗口，可以禁止双开

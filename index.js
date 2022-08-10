@@ -64,7 +64,12 @@ app.on("ready", function () {
  *      会自动添加
  *      "electron:build": "vue-cli-service electron:build",
  *      "electron:serve": "vue-cli-service electron:serve",
+ *          yarm install的包最好用 yard electron:build 打包
+ *          打包错误问题1
+ *          electron:build 的时候需要下载很多大文件，终端无法下载可以卡主的网址复制到浏览器下载，完成后复制到 dist_electron\win-unpacked
  * 
  *       主进程文件是 background.js，这个文件在 Vue项目/src/下面
+ *          vue + electron 可以指定更新
+ *          
  *      
  */
