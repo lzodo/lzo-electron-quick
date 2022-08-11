@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package-win": "electron-packager . appname --platform=win32",
+    "package-linux": "electron-packager . appname --platform=linux",
+    "package-mac": "electron-packager . appname --platform=darwin"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^18.0.3"
+    "electron": "^18.0.3",
+    "electron-packager": "^15.5.1"
   }
 }

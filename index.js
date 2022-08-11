@@ -57,6 +57,10 @@ app.on("ready", function () {
  * 
  * https://www.electronjs.org/zh/docs/latest/tutorial/message-ports
  * 
+ *  打包
+ *      "package-win": "electron-packager . HelloWorld --platform=win32",
+ *      安装 npm install --save-dev electron-packager
+ *          指令 程序位置 程序名称 系统平台
  * 
  * vue 配置 electron  https://juejin.cn/post/7015476516196712462#heading-17
  *      准备一个vue项目
@@ -66,9 +70,15 @@ app.on("ready", function () {
  *      "electron:serve": "vue-cli-service electron:serve",
  *          yarm install的包最好用 yard electron:build 打包
  *          打包错误问题1
- *          electron-v12.2.3-win32-x64.zip 放到 C:\Users\Administrator\AppData\Local\electron\Cache 下
- *          electron:build 的时候需要下载很多大文件，终端无法下载可以卡主的网址复制到浏览器下载，完成后复制到 dist_electron\win-unpacked
- *       主进程文件是 background.js，这个文件在 Vue项目/src/下面
+ *          electron:build 的时候需要下载很多大文件，终端无法下载可以卡主的网址复制到浏览器下载
+ *              https://github.com/electron/electron/releases?after=v1.2.3
+ *              找到 C:\Users\Administrator\AppData\Local\electron\Cache
+ *              electron-v12.2.3-win32-x64.zip 直接放到 Cache 下
+ * 
+ *              找到 C:\Users\Administrator\AppData\Local\electron-builder\Cache\
+ *              Cache 下创建 nsis 和 winCodeSign，存放解压的 nsis-x.x.x,nsis-resources-xxx 和 winCodeSign-x.x.x
+ * 
+ *         主进程文件是 background.js，这个文件在 Vue项目/src/下面
  *          vue + electron 可以指定更新
  *          
  *      
