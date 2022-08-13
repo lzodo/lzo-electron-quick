@@ -18,7 +18,7 @@ const template = [
                         width: 200,
                         height: 200,
                     });
-                    sonWin.loadFile("./index2.html");
+                    // sonWin.loadFile("./index2.html");
                     // 为关闭的时候进行清空
                     sonWin.on("close", () => {
                         sonWin = null;

@@ -2,9 +2,9 @@
   "name": "lzo-electron-quick",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "nodemon --watch main.js --exec electron .",
     "package-win": "electron-packager . appname --platform=win32",
     "package-linux": "electron-packager . appname --platform=linux",
     "package-mac": "electron-packager . appname --platform=darwin"
@@ -13,7 +13,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^18.0.3",
+    "electron": "^20.0.2",
     "electron-packager": "^15.5.1"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.0.8"
   }
 }

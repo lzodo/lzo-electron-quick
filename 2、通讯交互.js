@@ -47,3 +47,13 @@ app.on("ready", function () {
  *
  *      渲染进程 ipcRenderer 模块 接收主进程的数据
  */
+
+/**
+ * window 的消息传递
+ * 窗口1 
+ *      通过 window.open('xxx.html') 打开子窗口
+ *      window.addEventListener('message',(msg)=>{ console.log("接收到 xxx.html 窗口发送的信息") })
+ * 
+ *      xxx.html
+ *      通过 window.opener.postMessage("发送到窗口1的消息")
+ */

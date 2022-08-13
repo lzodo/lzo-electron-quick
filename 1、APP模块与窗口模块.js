@@ -79,20 +79,34 @@ if (!isOpen) {
 /**
  * BrowserWindow 模块
  *
+ * BrowserWindow、app这种主进程专属对象，默认情况下渲染进程是不能用的
+ *      remote (废弃)渲染进程中(需要先设置 enableRemoteModule:true)
+ *      const { remote } = require("electron");
+ *      new romote.BrowserWindow() 
+ * 
+ *      @electron/remote 代替 remtoe
+ * 
  * BrowserWindow 属性
  *    width 窗口宽度
  *    height 窗口高度
- *    frame:false 去除边框(菜单按钮等)
+ *    x 距离设备左边距离
+ *    y 距离设备右边距离    
+ *    frame:false 去除边框(菜单按钮和标题等) (找个元素设置 -webkit-app-region: drag; 就可以拖动)
+ *    autoHideMenuBar:true 只去除菜单，保留标题
  *    resizable:true 设置窗口是否可拖拉，改变大小
  *    maxWidth maxHeight minWidth minHeight  如果可以拖动，可以指定最大多大，最小多大
  *    show:true 设置窗口是否显示，默认true
+ *    title:"设置标题"
+ *    icon: 设置图标
  *    webPreferences: { //配置网页功能
  *       nodeIntegration:true, // 加载的文件中 是否支持node 默认false
  *       contextIsolation:false, // 是否开启上下文隔离，默认true
+ *       enableRemoteModule:true  // 开启远程模块
  *    }
  * BrowserWindow 实例方法
  *    win.loadFile 用于加载本地文件（各种类型文件）
  *    win.loadURL 用于加载远程文件，网页、视频地址(可以内置其他网站到程序中)
+ *    
  *
  * BrowserWindow 事件
  *    win.once('ready-to-show',()=>{})  页面渲染完成之后触发

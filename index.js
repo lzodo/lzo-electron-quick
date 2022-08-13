@@ -1,85 +1,52 @@
-const { app, BrowserWindow, ipcMain} = require("electron");
-const initTray = require("./ele-sysmenu");
-let win = null;
+const { ipcRenderer } = require("electron");
+const { BrowserWindow, Menu, getCurrentWindow } = require('@electron/remote');
 
-// 主进程与渲染进程交互
-require("./ele-props")
+window.onload = function () {
 
-app.on("ready", function () {
-    // 创建一个窗口
-    win = new BrowserWindow({
-        width: 800,
-        height: 600,
-        frame:true,
-        icon: "static/video-ico.png",     //应用运行时的标题栏图标
-        webPreferences: {
-            //配置网页功能
-            nodeIntegration: true, // 加载的文件中可以直接使用node语法
-            contextIsolation: false, // 是否开启上下文隔离，默认true
-        },
-    });
+    ipcRenderer.send("renderer-send123xx", "渲染进程数据传递到主进程");
 
-    //窗口中加载 index.html 这个文件
-    win.loadFile("index.html");
+    // 获取当前窗口
+    //let thisWindow = BrowserWindow.getCurrentWindow()
 
-    // 打开开发调试工具
-    win.openDevTools();
+    // 窗口关闭之前做一些事情
+    // window.onbeforeunload = function(){
+    //     console.log('222');
+    //     document.getElementById("beforeClose").addEventListener("click",()=>{
+    //         getCurrentWindow().close()
+    //     })
+    //     return false
+    // }
 
-    // 托盘与右键菜单
-    initTray(win);
+    // 创建一个新的窗口
+    document.getElementById("addwin").addEventListener("click", () => {
+        let sonWin = new BrowserWindow({
+            width: 200,
+            height: 200,
+        });
+        // sonWin.loadFile("./index2.html");
+        // 为关闭的时候进行清空
+        sonWin.on("close", () => {
+            sonWin = null;
+        });
+    })
 
-    // 界面菜单
-    require("./ele-webmenu")
+    //右键菜单
+    const rightMenuTemp = [
+        { label: "复制" },
+        { label: "粘贴" },
+    ]
+
+    const rmenu = Menu.buildFromTemplate(rightMenuTemp);
+    window.addEventListener("contextmenu", e => {
+        e.preventDefault();
+        rmenu.popup({
+            window: getCurrentWindow()
+        })
+    })
+};
 
 
-    win.setBounds(800,500);
-    
-    win.once("ready-to-show", () => {
-        console.log("ready-to-show");
-        win.show(); // 页面渲染完成后显示窗口，防止白屏问题
-    });
+ipcRenderer.on("main-send", (data, val) => {
+    // 接收主进程的消息
+    console.log(val, 13456);
 });
-
-/**
- *  进程通信(主进程，渲染进程)
- *
- *  主进程(比如这个 index.js 入口文件)
- *      可以使用所有nodejs api
- *
- *  渲染进程(loadFile 加载的index.html)
- *      默认不能使用nodejs api 除非去设置 webPreferences
- *
- *  主进程与渲染进程的通信
- *
- *      主进程 ipcMan 模块 处理渲染进程的数据
- *
- *      渲染进程 ipcRenderer 模块 接收主进程的数据
- * 
- * https://www.electronjs.org/zh/docs/latest/tutorial/message-ports
- * 
- *  打包
- *      "package-win": "electron-packager . HelloWorld --platform=win32",
- *      安装 npm install --save-dev electron-packager
- *          指令 程序位置 程序名称 系统平台
- * 
- * vue 配置 electron  https://juejin.cn/post/7015476516196712462#heading-17
- *      准备一个vue项目
- *      安装 vue add electron-builder 插件
- *      会自动添加
- *      "electron:build": "vue-cli-service electron:build",
- *      "electron:serve": "vue-cli-service electron:serve",
- *          yarm install的包最好用 yard electron:build 打包
- *          打包错误问题1
- *          electron:build 的时候需要下载很多大文件，终端无法下载可以卡主的网址复制到浏览器下载
- *              https://github.com/electron/electron/releases?after=v1.2.3
- *              找到 C:\Users\Administrator\AppData\Local\electron\Cache
- *              electron-v12.2.3-win32-x64.zip 直接放到 Cache 下
- * 
- *              找到 C:\Users\Administrator\AppData\Local\electron-builder\Cache\
- *              Cache 下创建 nsis 和 winCodeSign，存放解压的 nsis-x.x.x,nsis-resources-xxx 和 winCodeSign-x.x.x
- * 
- *         主进程文件是 background.js，这个文件在 Vue项目/src/下面
- *          vue + electron 可以指定更新
- *          
- *      
- */

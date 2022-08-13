@@ -21,17 +21,10 @@
     </head>
     <body>
         <div class="header"></div>
-        hello electron
+        hello electron 
+        <button id="addwin">渲染进程创建窗口</button>
+        <button id="beforeClose">关闭确认框</button>
+        <button id="openDialog">打开文件夹</button>
     </body>
-    <script>
-        const { ipcRenderer } = require("electron");
-        window.onload = function () {
-            ipcRenderer.send("renderer-send123xx", "渲染进程数据传递到主进程");
-        };
-
-        ipcRenderer.on("main-send", (data, val) => {
-            // 接收主进程的消息
-            console.log(val);
-        });
-    </script>
+    <script src="./index.js"></script>
 </html>
