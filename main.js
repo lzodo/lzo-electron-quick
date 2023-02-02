@@ -21,6 +21,8 @@ app.on("ready", function () {
             contextIsolation: false, // 是否开启上下文隔离，默认true
         },
     });
+
+    // electron/remote 是一个 Electron 模块，它将 JavaScript 对象从主进程桥接到渲染器进程。 这使您可以访问仅主进程的对象，就好像它们在渲染器进程中可用一样。
     require('@electron/remote/main').initialize()
     require("@electron/remote/main").enable(win.webContents)
 
@@ -35,7 +37,7 @@ app.on("ready", function () {
     const view = new BrowserView();
     win.setBrowserView(view);
     view.setBounds({ x: 200, y: 200, width: 300, height: 300 })
-    view.webContents.loadURL('https://electronjs.org')
+    view.webContents.loadURL('http://m.vue.lzoxun.top/')
     view.setAutoResize({width:true,horizontal:true})
 
     //窗口中加载 index.html 这个文件
@@ -114,5 +116,7 @@ app.on("ready", function () {
  *         主进程文件是 background.js，这个文件在 Vue项目/src/下面
  *          vue + electron 可以指定更新
  *          
- *      
+ * 或者 通过 electron-builder 打包普通 electron 项目
+ *      全局安装 electron-builder
+ *      electron-builder --win --x64
  */
